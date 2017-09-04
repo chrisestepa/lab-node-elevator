@@ -20,15 +20,43 @@ class Elevator {
   }
 
   update() {
-    this.log();
+    if (this.requests[0] > this.floor){
+      this.floorUp();
+    }
+    else if (this.requests[0] < this.floor){
+      this.floorDown();
+    }
+    else if (this.requests[0] == this.floor){
+        this._passengersEnter();
+        this.requests = [];
+    }
+    if (!this.requests.length){
+      this._passengersLeave();
+    }
   }
 
   _passengersEnter() {
-
+      this.passengers.push(this.waitingList[0]);
+      this.waitingList.pop();
+      console.log("PASSENGERS: " + this.passengers[0].name);
+      this._passengersLeave();
   }
 
   _passengersLeave() {
 
+    if (this.passengers[0].destinationFloor < this.floor){
+      this.floorDown();
+    }
+    else if (this.passengers[0].destinationFloor > this.floor){
+      this.floorUp();
+    }
+    else if (this.passengers[0].destinationFloor == this.floor){
+      this.stop();
+      this.passengers.pop();
+      console.log ("HAS LLEGADO A TU DESTINO: " + this.floor);
+
+      console.log("EL ASCENSOR SE HA PARADO EN EL PISO: "+ this.floor);
+    }
   }
 
   floorUp() {
@@ -52,9 +80,11 @@ class Elevator {
   }
 
   call(person) {
+
     this.waitingList.push(person);
     this.requests.push(person.originFloor);
-    console.log(`WAITING LIST ${this.waitingList[0].name} // REQUESTS: ${this.requests[0]}`);
+    this.start();
+//    console.log(`WAITING LIST ${this.waitingList[0].name} // REQUESTS: ${this.requests[0]}`);
   }
 
   log() {

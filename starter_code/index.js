@@ -6,14 +6,10 @@ const Person = require('./person.js');
 let elev = new Elevator();
 let pers = new Person("Chris", 3, 0);
 
-elev.start();
+let pers2 = new Person("Daniel", 2, 9);
+
 
 elev.call(pers);
 
-elev.floorUp();
-elev.floorUp();
-
-elev.floorUp();
-
-elev.floorUp();
-elev.floorDown();
+setTimeout(function (){
+  elev.call(pers2);},10000);
